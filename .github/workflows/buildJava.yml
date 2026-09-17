@@ -2,7 +2,7 @@ name: Java CI with Maven - Test and package
 
 on:
   pull_request:
-    types: [opened, edited, reopened]
+    types: [opened, reopened, synchronize]
     branches: [main]
 
 jobs:
