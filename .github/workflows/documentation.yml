@@ -1,0 +1,30 @@
+name: Generated documentation
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+jobs:
+  generate-documentation:
+    name: Generated documentation
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v4
+        with:
+          distribution: corretto
+          java-version: '21'
+      - name: Cache maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Generate documentation
+        run: mvn -B javadoc::javadoc
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./target
