@@ -16,4 +16,4 @@ jobs:
           distribution: corretto
           java-version: '21'
       - name: Run tests
-        run: mvn –B package
+        run: mvn -B package
